@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,14 +10,20 @@ using UnityEngine;
 
 public class ReplayRecorder : MonoBehaviour
 {
-    [SerializeField] private Transform[] transforms;
+    [SerializeField] private Transform simulation;
 
     private List<Snapshot> Snapshots = new List<Snapshot>();
+    private List<Transform> transforms;
+
+    private void Start()
+    {
+        transforms = simulation.GetComponentsInChildren<Transform>().Where(t => t.childCount == 0).ToList();
+    }
 
     // Update is called once per frame
     private void Update()
     {
-        var states = new TransformState[transforms.Length];
+        var states = new TransformState[transforms.Count];
         for (var i = 0; i < states.Length; i++)
         {
             var transform = transforms[i];

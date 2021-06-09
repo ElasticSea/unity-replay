@@ -34,11 +34,22 @@ namespace Replays.Editor
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Play")) player.enabled = true;
-            if (GUILayout.Button("Stop")) player.enabled = false;
+            if (player.enabled)
+            {
+                if (GUILayout.Button("Stop")) player.enabled = false;
+            }
+            else
+            {
+                if (GUILayout.Button("Play")) player.enabled = true;
+            }
             GUILayout.EndHorizontal();
             
             EditorGUILayout.LabelField("Time", player.Time.ToString("F3"));
+            var newTime = GUILayout.HorizontalSlider(player.Time, player.MinTime, player.MaxTime);
+            if (newTime != player.Time)
+            {
+                player.Time = newTime;
+            }
             EditorGUILayout.LabelField("Frame", player.Frame.ToString());
             
             GUILayout.BeginHorizontal();

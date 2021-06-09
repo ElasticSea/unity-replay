@@ -21,7 +21,7 @@ namespace Replays.Editor
                 var replay = ReplaySeriliazer.Read(bytes);
                 var addComponent = replayPlayer.gameObject.AddComponent<ReplayPlayer>();
 
-                var map = FindObjectsOfType<Transform>().ToDictionary(t => t.name, t => t);
+                var map = replayPlayer.replay.GetComponentsInChildren<Transform>().ToDictionary(t => t.name, t => t);
                 
                 addComponent.Load(replay.Snapshots, replay.Transforms.Select(t => map[t]).ToList());
             };

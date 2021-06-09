@@ -29,8 +29,26 @@ public class ReplayPlayer : MonoBehaviour
     public float Time
     {
         get => time;
-        set => time = value;
+        set
+        {
+            time = value;
+
+            for (var i = 0; i < snapshots.Count; i++)
+            {
+                var sample = snapshots[i];
+                if (sample.Time >= time)
+                {
+                    break;
+                }
+                frame = i;
+            }
+            
+            Update();
+        }
     }
+
+    public float MinTime => minTime;
+    public float MaxTime => maxTime;
 
     public void Load(List<Snapshot> snapshots, List<Transform> transforms)
     {
